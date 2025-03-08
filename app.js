@@ -38,7 +38,9 @@ app.use(notFound);
 // utilizzo middleware di gestione errore server
 app.use(errorsHandler);
 
+
 // Avvia il server sulla porta specificata
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
+
