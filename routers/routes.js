@@ -1,15 +1,13 @@
 const express = require('express')
 const router = express.Router();
 
+const routesController = require('../controllers/controller_routes')
+
 // index visualizza tutti gli elementi
-router.get('/', (req, res) => {
-    res.json('rotta index')
-});
+router.get('/', routesController.index);
 
 // show visualizza un elemento per id
-router.get('/:id', (req, res) => {
-    res.json('rotta show')
-});
+router.get('/:id', routesController.show);
 
 // store crea un elemento
 router.post('/', (req, res) => {
@@ -23,8 +21,6 @@ router.put('/:id', (req, res) => {
 });
 
 // delete cancella un elemento
-router.delete('/:id', (req, res) => {
-    res.json('rotta delete')
-});
+router.delete('/:id', routesController.destroy);
 
 module.exports = router;
