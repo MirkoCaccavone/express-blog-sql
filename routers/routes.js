@@ -10,15 +10,11 @@ router.get('/', routesController.index);
 router.get('/:id', routesController.show);
 
 // store crea un elemento
-router.post('/', (req, res) => {
-    res.json('rotta store')
-});
+router.post('/', routesController.store);
 
 // update modifica l'elemento
 // .put = tutto l'elemento .patch = una parte dell'elemento
-router.put('/:id', (req, res) => {
-    res.json('rotta update')
-});
+router.put('/:id', routesController.update);
 
 // delete cancella un elemento
 router.delete('/:id', routesController.destroy);

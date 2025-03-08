@@ -38,6 +38,47 @@ function show(req, res) {
     })
 }
 
+// funzione STORE
+function store(req, res) {
+
+    // Recupera i dati dal body della richiesta
+    const { title, content, image } = req.body;
+
+    // Query SQL per inserire un nuovo post
+    const sql = `INSERT INTO posts (title, content, image)  VALUES (?, ?, ?)`;
+
+    // Eseguiamo la query
+    connection.query(sql, [title, content, image], (err, result) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        if (result.length === 0) return res.status(404).json({ error: 'post non creato' });
+        res.json(result[0])
+    });
+}
+
+// funzione update
+function update(req, res) {
+
+    const id = req.params.id
+    // Recupera i dati dal body della richiesta
+    const { title, content, image } = req.body;
+
+    // Query SQL per inserire un nuovo post
+    const sql = `
+        UPDATE posts 
+        SET 
+        title = ?,
+        content = ?,
+        image = ?
+        WHERE id= ? `;
+
+    // Eseguiamo la query
+    connection.query(sql, [title, content, image, id], (err, result) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        if (result.affectedRows === 0) return res.status(404).json({ error: 'post non trovato' });
+        res.json(result[0])
+
+    });
+}
 
 // funzione DESTROY
 function destroy(req, res) {
@@ -46,7 +87,7 @@ function destroy(req, res) {
     const id = parseInt(req.params.id)
 
     // prepariamo la query
-    const sql = 'DELETE FROM posts WHERE id = ?';
+    const sql = 'DELETE FROM posts WHERE; id = ?';
 
     // eseguiamo la query ed eliminiamo il post
     connection.query(sql, [id], (err) => {
@@ -56,4 +97,4 @@ function destroy(req, res) {
 
 }
 
-module.exports = { index, show, destroy }
+module.exports = { index, show, store, update, destroy }

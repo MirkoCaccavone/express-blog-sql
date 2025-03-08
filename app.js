@@ -13,6 +13,10 @@ app.use(cors({
     origin: '*'
 }));
 
+// registro il body-parser per "application/json"
+// interpreta quello che sarà passato come file JSON
+app.use(express.json());
+
 // importo il router
 const postsRouter = require('./routers/routes');
 
@@ -21,10 +25,6 @@ app.use("/posts", postsRouter)
 
 // Serve i file statici dalla cartella 'public'
 app.use(express.static('public'));
-
-// registro il body-parser per "application/json"
-// interpreta quello che sarà passato come file JSON
-app.use(express.json());
 
 // Gestisce la route principale ('/')
 app.get('/', (req, res) => {
