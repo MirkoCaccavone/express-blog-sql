@@ -15,7 +15,31 @@ function index(req, res) {
     });
 }
 
-// funzione destroy
+// funzione SHOW
+function show(req, res) {
+    // recuperiamo l'id dall' URL e trasformiamolo in numero
+    const id = parseInt(req.params.id)
+
+    // prepariamo la query
+    const sql = `
+        SELECT 
+            posts.*,
+            GROUP_CONCAT(tags.label SEPARATOR ', ') AS tags
+        FROM posts 
+        JOIN post_tag ON posts.id = post_tag.post_id
+        JOIN tags ON post_tag.tag_id = tags.id
+        WHERE posts.id = ?`;
+
+    // eseguiamo la query per mostrare un singolo post
+    connection.query(sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        if (results.length === 0) return res.status(404).json({ error: 'Post not found' });
+        res.json(results[0]);
+    })
+}
+
+
+// funzione DESTROY
 function destroy(req, res) {
 
     // recuperiamo l'id dall' URL e trasformiamolo in numero
@@ -32,4 +56,4 @@ function destroy(req, res) {
 
 }
 
-module.exports = { index, destroy }
+module.exports = { index, show, destroy }
